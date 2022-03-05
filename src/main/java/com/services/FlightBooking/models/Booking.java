@@ -19,13 +19,6 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(Integer id, String pnr, String flightNo, String userEmail) {
-        this.id = id;
-        this.pnr = pnr;
-        this.flightNo = flightNo;
-        this.userEmail = userEmail;
-    }
-
     public Integer getId() {
         return id;
     }

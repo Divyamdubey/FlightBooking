@@ -9,85 +9,66 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name ="user_id" )
-    private Integer userId;
+    private Integer id;
 
     @Column(name="user_first_name")
-    private String userFirstName;
+    private String firstName;
     @Column(name="user_last_name")
-    private String userLastName;
+    private String lastName;
     @Column(name="user_pwd")
-    private String userPassword;
+    private String password;
     @Column(name="user_mail")
-    private String userEmail;
+    private String email;
     @Column(name="user_phone")
-    private Integer userPhone;
+    private Integer phone;
 
     public User() {
     }
 
-    public User(Integer userId,String userFirstName,String userLastName, String userPassword, String userEmail,
-                Integer userPhone) {
-        super();
-        this.userId = userId;
-        this.userFirstName = userFirstName;
-        this.userLastName = userLastName;
-        this.userPassword = userPassword;
-        this.userEmail = userEmail;
-        this.userPhone = userPhone;
-    }
-    public User(String userFirstName,String userLastName, String userPassword, String userEmail,
-                Integer userPhone) {
-        super();
-        this.userFirstName = userFirstName;
-        this.userLastName = userLastName;
-        this.userPassword = userPassword;
-        this.userEmail = userEmail;
-        this.userPhone = userPhone;
-    }
-    public Integer getUserId() {
-        return userId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getUserFirstName() {
-        return userFirstName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setUserFirstName(String userFirstName) {
-        this.userFirstName = userFirstName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getUserLastName() {
-        return userLastName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setUserLastName(String userLastName) {
-        this.userLastName = userLastName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public Integer getUserPhone() {
-        return userPhone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setUserPhone(Integer userPhone) {
-        this.userPhone = userPhone;
+    public Integer getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Integer phone) {
+        this.phone = phone;
     }
 }

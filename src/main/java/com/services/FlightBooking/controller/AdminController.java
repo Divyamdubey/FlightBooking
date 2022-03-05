@@ -2,39 +2,48 @@ package com.services.FlightBooking.controller;
 
 import com.services.FlightBooking.models.Admin;
 import com.services.FlightBooking.models.Flight;
-import com.services.FlightBooking.models.User;
-import com.services.FlightBooking.repository.AdminRepo;
-import com.services.FlightBooking.repository.FlightRepo;
+import com.services.FlightBooking.repository.AdminRepository;
+import com.services.FlightBooking.repository.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class AdminController {
 
     @Autowired
-    AdminRepo adminRepo;
+    AdminRepository adminRepository;
     @Autowired
-    FlightRepo flightRepo;
+    FlightRepository flightRepository;
 
     @PostMapping("/flight/airline/inventory/add")
-    public Flight addFlight(@RequestBody Flight flight){
-
-      return  flightRepo.save(flight);
-    }
+    public Flight addFlight(@RequestBody Flight flight){return  flightRepository.save(flight);}
 
     @PostMapping("/flight/admin/login")
-    public Admin adminLogin(@RequestBody Admin admin) {
-        List<Admin> adminCheck = adminRepo.findAll();
-        Admin admin1 = adminCheck.get(0);
-        if(!admin1.getAdminName().equals(admin.getAdminName())){
+    public Admin login(@RequestBody Admin admin) {
+        Optional<Admin> admin2= Optional.ofNullable(adminRepository.findByAdminName(admin.getName()));
+        if (!admin2.isPresent()) {
             return new Admin();
         }
-        if (admin1.getAdminPassword().equals(admin.getAdminPassword())){
+        Admin admin1= admin2.get();
+        if (admin1.getPassword().equals(admin.getPassword())){
             return admin1;
         }
         return new Admin();
     }
+
+    @PutMapping("/flight/admin/status")
+    public String changeStatus(@RequestParam(value ="flightNo") String flightNo,@RequestParam(value ="status") String status){
+        Optional<Flight> flightCheck = Optional.ofNullable(flightRepository.findByFlightNo(flightNo));
+        if (!flightCheck.isPresent()){
+            return "Flight not present";
+        }
+        Flight flight = flightRepository.findByFlightNo(flightNo);
+        flight.setStatus(status);
+        flightRepository.save(flight);
+        return  "status changed";
+
+    }
+
 }

@@ -1,20 +1,18 @@
 package com.services.FlightBooking.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.time.LocalDateTime;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "flight")
 public class Flight {
 
     @Id
-    @Column(name = "flight_no")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    @Column(name = "flight_no",unique = true,nullable = false)
     private String flightNo;
     @Column(name = "flight_name")
-    private String flightName;
+    private String name;
     @Column(name = "departure_from")
     private String departureFrom;
     @Column(name = "arrival_to")
@@ -34,22 +32,7 @@ public class Flight {
 
     public Flight() {
     }
-
-    public Flight(String flightNo, String flightName, String departureFrom, String arrivalTo,
-                  String departureDate, String arrivalDate, String status, Integer cost,
-                  Integer totalSeats, String discountCode) {
-        this.flightNo = flightNo;
-        this.flightName = flightName;
-        this.departureFrom = departureFrom;
-        this.arrivalTo = arrivalTo;
-        this.departureDate = departureDate;
-        this.arrivalDate = arrivalDate;
-        this.status = status;
-        this.cost = cost;
-        this.totalSeats = totalSeats;
-        this.discountCode = discountCode;
-    }
-
+    
     public String getFlightNo() {
         return flightNo;
     }
@@ -58,12 +41,12 @@ public class Flight {
         this.flightNo = flightNo;
     }
 
-    public String getFlightName() {
-        return flightName;
+    public String getName() {
+        return name;
     }
 
-    public void setFlightName(String flightName) {
-        this.flightName = flightName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDepartureFrom() {

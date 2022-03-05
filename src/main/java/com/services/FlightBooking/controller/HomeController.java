@@ -1,16 +1,14 @@
 package com.services.FlightBooking.controller;
 
-import com.services.FlightBooking.models.User;
-import com.services.FlightBooking.repository.UserRepo;
+import com.services.FlightBooking.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class HomeController {
 
     @Autowired
-    UserRepo userRepo;
+    UserRepository userRepository;
 
     @RequestMapping("/")
     public String homePage(){

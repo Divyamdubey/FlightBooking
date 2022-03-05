@@ -8,44 +8,31 @@ public class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer adminId;
-
-    @Column(name = "admin_name")
-    private String adminName;
-    @Column(name = "admin_password")
-    private String adminPassword;
-
+    private Integer Id;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "password")
+    private String password;
 
     public Admin() {
     }
 
-    public Admin(Integer adminId, String adminName,String adminPassword) {
-        this.adminId = adminId;
-        this.adminName = adminName;
-        this.adminPassword = adminPassword;
+    public Integer getId() {
+        return Id;
     }
-
-    public Integer getAdminId() {
-        return adminId;
+    public void setId(Integer id) {
+        this.Id = id;
     }
-
-    public void setAdminId(Integer adminId) {
-        this.adminId = adminId;
+    public String getName() {
+        return name;
     }
-
-    public String getAdminName() {
-        return adminName;
+    public void setName(String name) {
+        this.name = name;
     }
-
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
+    public String getPassword() {
+        return password;
     }
-
-    public String getAdminPassword() {
-        return adminPassword;
-    }
-
-    public void setAdminPassword(String adminPassword) {
-        this.adminPassword = adminPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
