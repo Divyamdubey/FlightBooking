@@ -1,80 +1,47 @@
 package com.services.FlightBooking.controller;
 
 import com.services.FlightBooking.models.*;
-import com.services.FlightBooking.repository.BookingRepository;
-import com.services.FlightBooking.repository.FlightRepository;
-import com.services.FlightBooking.repository.PassengerRepository;
-import com.services.FlightBooking.repository.UserRepository;
-import com.services.FlightBooking.service.PnrGenerator;
+import com.services.FlightBooking.service.servicesImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 public class UserController {
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
-    PnrGenerator pnrGenerator;
+    UserServiceImpl userService;
 
-    @Autowired
-    FlightRepository flightRepository;
-
-    @Autowired
-    BookingRepository bookingRepository;
-
-    @Autowired
-    PassengerRepository passengerRepository;
-
-    @PostMapping("/api/v1.0/flight/search")
-    @ResponseBody
-    public List<Flight> userSearch(@RequestParam String flightDeparture,@RequestParam String flightArrival){
-        List<Flight> flightList = new ArrayList<>();
-        flightList = flightRepository.findByDeparture(flightDeparture,flightArrival);
-        return flightList;
+    @PostMapping("/flight/search")
+    public List<Flight> search(@RequestParam String flightDeparture,@RequestParam String flightArrival){
+       return userService.search(flightDeparture,flightArrival);
     }
 
-    @PostMapping("/api/v1.0/flight/booking/{flightNo}")
+    @PostMapping("/flight/booking/{flightNo}")
     public Optional<Booking> userBookFlight(@PathVariable(name ="flightNo") String flightNo,@RequestBody Passenger passenger){
-        System.out.println("FlightId"+flightNo);
-        System.out.println("Passenger"+passenger.getBookingMail());
-        Optional<Flight> checkFlight= Optional.ofNullable(flightRepository.findByFlightNo(flightNo));
-        if (!checkFlight.isPresent())
-            return Optional.of(new Booking());
-        //Optional<Flight> flightDetails = flightRepository.findById(flightNo);
-        String pnr = pnrGenerator.getPnr();
-        passenger.setPnr(pnr);
-        passengerRepository.save(passenger);
-        Booking booking= new Booking();
-        booking.setFlightNo(flightNo);
-        booking.setPnr(pnr);
-        booking.setUserEmail(passenger.getBookingMail());
-        bookingRepository.save(booking);
-        return Optional.of(booking);
+      return userService.userBookFlight(flightNo,passenger);
     }
 
-    @PostMapping("/api/v1.0/flight/airline/UserRegister")
-    @ResponseBody
+    @PostMapping("/flight/airline/UserRegister")
     public User userRegistration(@RequestBody User user){
-        return userRepository.save(user);
+        return userService.userRegistration(user);
     }
 
 
-    @GetMapping("/api/v1.0/flight/ticket/{pnr}")
-    @ResponseBody
-    public Booking findByPnr( @PathVariable(value = "pnr") String pnr){
-        return bookingRepository.findByPnr(pnr);
+    @GetMapping("/flight/ticket/{pnr}")
+    public Booking findByPnr(@PathVariable(value = "pnr") String pnr){
+        return userService.findByPnr(pnr);
     }
 
-    @DeleteMapping("/api/v1.0/flight/booking/cancel/{pnr}")
-    @ResponseBody
+    @GetMapping("/flight/booking/history/{emailId}")
+    public List<Booking> findByMail(@PathVariable(value = "emailId") String emailId){
+        return  userService.findByMail(emailId);
+    }
+
+    @DeleteMapping("/flight/booking/cancel/{pnr}")
     public Booking deleteByPnr( @PathVariable(value = "pnr") String pnr){
-        Booking booking = bookingRepository.findByPnr(pnr);
-        bookingRepository.delete(booking);
-        return booking;
+       return userService.deleteByPnr(pnr);
     }
 }
