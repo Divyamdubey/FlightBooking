@@ -8,6 +8,8 @@ import com.services.FlightBooking.service.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -23,24 +25,29 @@ public class AdminServiceImpl implements AdminService {
     public Admin login(Admin admin) {
         Optional<Admin> admin2= Optional.ofNullable(adminRepository.findByAdminName(admin.getName()));
         if (!admin2.isPresent()) {
-            return new Admin();
+            return null;
         }
         Admin admin1= admin2.get();
         if (admin1.getPassword().equals(admin.getPassword())){
             return admin1;
         }
-        return new Admin();
+        return null;
     }
 
-    public String changeStatus(String flightNo,String status){
+    public Flight changeStatus(String flightNo,String status){
         Optional<Flight> flightCheck = Optional.ofNullable(flightRepository.findByFlightNo(flightNo));
         if (!flightCheck.isPresent()){
-            return "Flight not present";
+            return null;
         }
         Flight flight = flightRepository.findByFlightNo(flightNo);
         flight.setStatus(status);
         flightRepository.save(flight);
-        return  "status changed";
+        return  flight;
+    }
+
+    @Override
+    public List<Flight> searchFlight() {
+        return flightRepository.findAll();
     }
 }
 

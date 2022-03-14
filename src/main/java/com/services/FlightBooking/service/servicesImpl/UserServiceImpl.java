@@ -36,11 +36,16 @@ public class UserServiceImpl implements UserService {
     }
 
     public Optional<Booking> userBookFlight(String flightNo,Passenger passenger){
-        System.out.println("FlightId"+flightNo);
-        System.out.println("Passenger"+passenger.getBookingMail());
+        System.out.println("FlightId"+" "+flightNo);
+        System.out.println("Passenger"+" "+passenger.getBookingMail());
+        System.out.println("Passenger"+" "+passenger.getFirstName()+" "+passenger.getLastName()+" "+
+                passenger.getGender()+" "+passenger.getAge()+" "+passenger.getPnr()+" "+passenger.getId());
         Optional<Flight> checkFlight= Optional.ofNullable(flightRepository.findByFlightNo(flightNo));
-        if (!checkFlight.isPresent())
+        System.out.println(checkFlight.isPresent());
+        if (!checkFlight.isPresent()) {
+            System.out.println("not generated");
             return Optional.of(new Booking());
+        }
         String pnr = pnrGenerator.getPnr();
         passenger.setPnr(pnr);
         passengerRepository.save(passenger);
@@ -48,11 +53,16 @@ public class UserServiceImpl implements UserService {
         booking.setFlightNo(flightNo);
         booking.setPnr(pnr);
         booking.setUserEmail(passenger.getBookingMail());
+        System.out.println("booking"+" "+passenger.getBookingMail());
         bookingRepository.save(booking);
         return Optional.of(booking);
     }
 
     public User userRegistration(User user){
+        Optional<User> mailCheck = Optional.ofNullable(userRepository.findByEmail(user.getEmail()));
+        Optional<User> phoneCheck=Optional.ofNullable(userRepository.findByPhone(user.getPhone()));
+        if (mailCheck.isPresent()||phoneCheck.isPresent())
+            return null;
         return userRepository.save(user);
     }
 
@@ -66,7 +76,9 @@ public class UserServiceImpl implements UserService {
 
     public Booking deleteByPnr(String pnr){
         Booking booking = bookingRepository.findByPnr(pnr);
+        Passenger passenger= passengerRepository.findByPnr(pnr);
         bookingRepository.delete(booking);
+        passengerRepository.delete(passenger);
         return booking;
     }
 }

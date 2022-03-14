@@ -6,6 +6,9 @@ import com.services.FlightBooking.service.servicesImpl.AdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+@CrossOrigin(value = "http://localhost:4200")
 @RestController
 public class AdminController {
 
@@ -15,14 +18,21 @@ public class AdminController {
     @PostMapping("/flight/airline/inventory/add")
     public Flight addFlight(@RequestBody Flight flight){return adminService.addFlight(flight);}
 
+
     @PostMapping("/flight/admin/login")
     public Admin login(@RequestBody Admin admin) {
         return adminService.login(admin);
     }
 
     @PutMapping("/flight/admin/status")
-    public String changeStatus(@RequestParam(value ="flightNo") String flightNo,@RequestParam(value ="status") String status){
+    public Flight changeStatus(@RequestParam(value ="flightNo") String flightNo,@RequestParam(value ="status") String status){
       return adminService.changeStatus(flightNo,status);
+    }
+
+    @CrossOrigin(value = "http://localhost:4200")
+    @GetMapping("/flight/admin/search")
+    public List<Flight> searchFlights(){
+        return adminService.searchFlight();
     }
 
 }

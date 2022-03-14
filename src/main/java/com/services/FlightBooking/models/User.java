@@ -11,16 +11,17 @@ public class User {
     @Column(name ="user_id" )
     private Integer id;
 
-    @Column(name="user_first_name")
+    @Column(name="user_first_name",nullable = false)
     private String firstName;
-    @Column(name="user_last_name")
+    @Column(name="user_last_name",nullable = false)
     private String lastName;
-    @Column(name="user_pwd")
+    @Column(name="user_pwd",nullable = false)
     private String password;
-    @Column(name="user_mail")
-    private String email;
-    @Column(name="user_phone")
+    @Column(name="user_phone",unique = true,nullable = false)
     private Integer phone;
+    @Column(name="user_mail",unique = true,nullable = false)
+    private String email;
+
 
     public User() {
     }
