@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
+    public User login(User user);
     public List<Flight> search(String flightDeparture, String flightArrival);
     public Optional<Booking> userBookFlight(String flightNo, Passenger passenger);
     public User userRegistration(User user);

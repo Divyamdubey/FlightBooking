@@ -8,7 +8,6 @@ import com.services.FlightBooking.service.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +44,15 @@ public class AdminServiceImpl implements AdminService {
         return  flight;
     }
 
+    public Flight deleteFlight(String flightNo){
+        Optional<Flight> flightCheck = Optional.ofNullable(flightRepository.findByFlightNo(flightNo));
+        if (!flightCheck.isPresent()){
+            return null;
+        }
+        Flight flight = flightRepository.findByFlightNo(flightNo);
+        flightRepository.delete(flight);
+        return  flight;
+    }
     @Override
     public List<Flight> searchFlight() {
         return flightRepository.findAll();

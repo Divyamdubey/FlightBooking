@@ -12,4 +12,5 @@ public interface AdminService {
     public Flight addFlight(Flight flight);
     public Flight changeStatus(String flightNo,String status);
     public List<Flight> searchFlight();
+    public Flight deleteFlight(String flightNo);
 }

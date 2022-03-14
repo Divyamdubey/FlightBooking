@@ -29,6 +29,12 @@ public class AdminController {
       return adminService.changeStatus(flightNo,status);
     }
 
+    @DeleteMapping("/flight/admin/delete/{flightNo}")
+    public Flight deleteFlight(@PathVariable(value ="flightNo") String flightNo){
+        System.out.println("FlightNo"+" "+flightNo);
+        return adminService.deleteFlight(flightNo);
+    }
+
     @CrossOrigin(value = "http://localhost:4200")
     @GetMapping("/flight/admin/search")
     public List<Flight> searchFlights(){

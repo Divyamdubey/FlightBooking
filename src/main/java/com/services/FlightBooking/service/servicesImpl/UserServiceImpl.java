@@ -1,9 +1,6 @@
 package com.services.FlightBooking.service.servicesImpl;
 
-import com.services.FlightBooking.models.Booking;
-import com.services.FlightBooking.models.Flight;
-import com.services.FlightBooking.models.Passenger;
-import com.services.FlightBooking.models.User;
+import com.services.FlightBooking.models.*;
 import com.services.FlightBooking.repository.BookingRepository;
 import com.services.FlightBooking.repository.FlightRepository;
 import com.services.FlightBooking.repository.PassengerRepository;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class UserServiceImpl implements UserService {
@@ -31,19 +29,29 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PassengerRepository passengerRepository;
 
+    public User login(User user) {
+        Optional<User> userCheck= Optional.ofNullable(userRepository.findByEmail(user.getEmail()));
+        if (!userCheck.isPresent()) {
+            return new User();
+        }
+        User userValue= userCheck.get();
+        if (userValue.getPassword().equals(user.getPassword())){
+            return userValue;
+        }
+        return null;
+    }
+
     public List<Flight> search(String flightDeparture,String flightArrival){
-        return flightRepository.findByDeparture(flightDeparture,flightArrival);
+        List<Flight> flights= flightRepository.findByDeparture(flightDeparture,flightArrival);
+        return flights.stream()
+                .filter(flight->flight.getStatus().equals("Unblocked"))
+                .collect(Collectors.toList());
     }
 
     public Optional<Booking> userBookFlight(String flightNo,Passenger passenger){
-        System.out.println("FlightId"+" "+flightNo);
-        System.out.println("Passenger"+" "+passenger.getBookingMail());
-        System.out.println("Passenger"+" "+passenger.getFirstName()+" "+passenger.getLastName()+" "+
-                passenger.getGender()+" "+passenger.getAge()+" "+passenger.getPnr()+" "+passenger.getId());
         Optional<Flight> checkFlight= Optional.ofNullable(flightRepository.findByFlightNo(flightNo));
         System.out.println(checkFlight.isPresent());
         if (!checkFlight.isPresent()) {
-            System.out.println("not generated");
             return Optional.of(new Booking());
         }
         String pnr = pnrGenerator.getPnr();
@@ -53,7 +61,6 @@ public class UserServiceImpl implements UserService {
         booking.setFlightNo(flightNo);
         booking.setPnr(pnr);
         booking.setUserEmail(passenger.getBookingMail());
-        System.out.println("booking"+" "+passenger.getBookingMail());
         bookingRepository.save(booking);
         return Optional.of(booking);
     }

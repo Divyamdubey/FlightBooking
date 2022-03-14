@@ -14,6 +14,12 @@ public class UserController {
 
     @Autowired
     UserServiceImpl userService;
+
+    @PostMapping("/flight/user/login")
+    public User login(@RequestBody User user) {
+        return userService.login(user);
+    }
+
     @CrossOrigin(value = "http://localhost:4200")
     @PostMapping("/flight/search")
     public List<Flight> search(@RequestParam String flightDeparture,@RequestParam String flightArrival){
