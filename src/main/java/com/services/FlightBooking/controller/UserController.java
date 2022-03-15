@@ -20,7 +20,6 @@ public class UserController {
         return userService.login(user);
     }
 
-    @CrossOrigin(value = "http://localhost:4200")
     @PostMapping("/flight/search")
     public List<Flight> search(@RequestParam String flightDeparture,@RequestParam String flightArrival){
        return userService.search(flightDeparture,flightArrival);
@@ -36,19 +35,16 @@ public class UserController {
         return userService.userRegistration(user);
     }
 
-    @CrossOrigin(value = "http://localhost:4200")
     @GetMapping("/flight/ticket/{pnr}")
     public Booking findByPnr(@PathVariable(value = "pnr") String pnr){
         return userService.findByPnr(pnr);
     }
 
-    @CrossOrigin(value = "http://localhost:4200")
     @GetMapping("/flight/booking/history/{emailId}")
     public List<Booking> findByMail(@PathVariable(value = "emailId") String emailId){
         return  userService.findByMail(emailId);
     }
 
-    @CrossOrigin(value = "http://localhost:4200")
     @DeleteMapping("/flight/booking/cancel/{pnr}")
     public Booking deleteByPnr( @PathVariable(value = "pnr") String pnr){
        return userService.deleteByPnr(pnr);

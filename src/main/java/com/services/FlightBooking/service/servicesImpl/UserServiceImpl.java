@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     public User login(User user) {
         Optional<User> userCheck= Optional.ofNullable(userRepository.findByEmail(user.getEmail()));
         if (!userCheck.isPresent()) {
-            return new User();
+            return null;
         }
         User userValue= userCheck.get();
         if (userValue.getPassword().equals(user.getPassword())){

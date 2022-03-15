@@ -35,7 +35,6 @@ public class AdminController {
         return adminService.deleteFlight(flightNo);
     }
 
-    @CrossOrigin(value = "http://localhost:4200")
     @GetMapping("/flight/admin/search")
     public List<Flight> searchFlights(){
         return adminService.searchFlight();
