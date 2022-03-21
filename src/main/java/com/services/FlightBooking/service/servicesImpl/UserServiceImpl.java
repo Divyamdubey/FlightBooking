@@ -77,6 +77,10 @@ public class UserServiceImpl implements UserService {
         return bookingRepository.findByPnr(pnr);
     }
 
+    public Passenger findPassenger(@PathVariable(value = "pnr") String pnr){
+        return passengerRepository.findByPnr(pnr);
+    }
+
     public List<Booking> findByMail(String emailId){
         return  bookingRepository.findByEmail(emailId);
     }

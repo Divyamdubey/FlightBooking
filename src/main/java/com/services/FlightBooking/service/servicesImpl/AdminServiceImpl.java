@@ -19,7 +19,14 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     AdminRepository adminRepository;
 
-    public  Flight addFlight(Flight flight){return flightRepository.save(flight);}
+    public  Flight addFlight(Flight flight){
+        if (flight.getFlightNo().equals("")||flight.getName().equals("")||flight.getDepartureFrom().equals("")
+                ||flight.getArrivalTo().equals("")||flight.getDepartureDate().equals("")
+                ||flight.getArrivalDate().equals("")||flight.getCost()==0||flight.getTotalSeats()==0
+                ||flight.getDiscountCode().equals("")||flight.getStatus().equals("")){
+            return null;
+        }
+        return flightRepository.save(flight);}
 
     public Admin login(Admin admin) {
         Optional<Admin> admin2= Optional.ofNullable(adminRepository.findByAdminName(admin.getName()));

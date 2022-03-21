@@ -18,7 +18,7 @@ public class User {
     @Column(name="user_pwd",nullable = false)
     private String password;
     @Column(name="user_phone",unique = true,nullable = false)
-    private Integer phone;
+    private Long phone;
     @Column(name="user_mail",unique = true,nullable = false)
     private String email;
 
@@ -65,11 +65,11 @@ public class User {
         this.email = email;
     }
 
-    public Integer getPhone() {
+    public Long getPhone() {
         return phone;
     }
 
-    public void setPhone(Integer phone) {
+    public void setPhone(Long phone) {
         this.phone = phone;
     }
 }

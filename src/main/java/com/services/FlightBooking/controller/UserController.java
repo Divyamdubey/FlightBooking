@@ -25,6 +25,7 @@ public class UserController {
        return userService.search(flightDeparture,flightArrival);
     }
 
+    @CrossOrigin(value = "http://localhost:4200")
     @PostMapping("/flight/booking/{flightNo}")
     public Optional<Booking> userBookFlight(@PathVariable(name ="flightNo") String flightNo,@RequestBody Passenger passenger){
       return userService.userBookFlight(flightNo,passenger);
@@ -44,7 +45,10 @@ public class UserController {
     public List<Booking> findByMail(@PathVariable(value = "emailId") String emailId){
         return  userService.findByMail(emailId);
     }
-
+    @GetMapping("/flight/booking/passenger/{pnr}")
+    public Passenger findPassenger(@PathVariable(value = "pnr") String pnr){
+        return  userService.findPassenger(pnr);
+    }
     @DeleteMapping("/flight/booking/cancel/{pnr}")
     public Booking deleteByPnr( @PathVariable(value = "pnr") String pnr){
        return userService.deleteByPnr(pnr);

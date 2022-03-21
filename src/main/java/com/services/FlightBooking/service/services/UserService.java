@@ -14,6 +14,7 @@ public interface UserService {
     public List<Flight> search(String flightDeparture, String flightArrival);
     public Optional<Booking> userBookFlight(String flightNo, Passenger passenger);
     public User userRegistration(User user);
+    public Passenger findPassenger(@PathVariable(value = "pnr") String pnr);
     public Booking findByPnr(@PathVariable(value = "pnr") String pnr);
     public List<Booking> findByMail(String emailId);
     public Booking deleteByPnr(String pnr);
